@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife - Your Fitness Journey Starts Here</title>
+    <title>FitGoals - Your Fitness Journey Starts Here</title>
     <style>
         * {
             margin: 0;
@@ -42,13 +42,18 @@
 
         /* Navigation */
         .navbar {
-            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
-            padding: 1rem 0;
+            background: transparent;
+            padding: 1.5rem 0;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 255, 136, 0.2);
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .nav-container {
@@ -63,14 +68,14 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: var(--primary-green);
+            color: var(--white);
             text-decoration: none;
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-link {
@@ -81,22 +86,7 @@
         }
 
         .nav-link:hover {
-            color: var(--primary-green);
-        }
-
-        .theme-toggle {
-            background: var(--primary-green);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            color: var(--black);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .theme-toggle:hover {
-            background: var(--dark-green);
-            transform: translateY(-2px);
+            color: var(--text-light);
         }
 
         /* Mobile Menu */
@@ -112,8 +102,8 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(26, 26, 26, 0.7), rgba(0, 255, 136, 0.1)), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23000" width="1200" height="800"/><g fill="%2300ff88" opacity="0.1"><circle cx="300" cy="200" r="100"/><circle cx="900" cy="600" r="150"/><rect x="600" y="100" width="200" height="200" rx="20"/></g></svg>');
+            background-image: linear-gradient(rgba(26, 26, 26, 0.6), rgba(26, 26, 26, 0.6)),
+                              url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=2575&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -125,27 +115,24 @@
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--white), var(--primary-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: bold;
         }
 
         .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
             color: var(--text-light);
         }
 
         .hero-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
         }
-
+        
         .btn {
             padding: 1rem 2rem;
             border: none;
@@ -157,21 +144,42 @@
             text-decoration: none;
             display: inline-block;
         }
+        
+        .hero .btn {
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+            border-radius: 8px;
+            font-size: 1.2rem;
+        }
+
+        .hero .btn:hover {
+            background: var(--white);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
             color: var(--black);
         }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
 
         .btn-secondary {
             background: transparent;
-            color: var(--white);
+            color: var(--primary-green);
             border: 2px solid var(--primary-green);
         }
-
-        .btn:hover {
+        
+        .btn-secondary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
         }
 
         /* Sections */
@@ -307,12 +315,23 @@
             border-color: var(--black);
         }
 
-        /* Diet Plans */
+        /* Diet Plans - UPDATED */
         .diet-tabs {
             display: flex;
             justify-content: center;
             margin-bottom: 2rem;
             gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .sub-diet-tabs {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        body.dark-mode .sub-diet-tabs {
+            border-color: var(--dark-gray);
         }
 
         .diet-tab {
@@ -332,17 +351,25 @@
 
         .diet-plan {
             display: none;
+        }
+        
+        .diet-plan.active {
+            display: block;
+        }
+        
+        .sub-diet-plan {
+            display: none;
             background: var(--light-gray);
             padding: 2rem;
             border-radius: 20px;
             margin-top: 2rem;
         }
 
-        body.dark-mode .diet-plan {
+        body.dark-mode .sub-diet-plan {
             background: var(--dark-gray);
         }
 
-        .diet-plan.active {
+        .sub-diet-plan.active {
             display: block;
         }
 
@@ -352,6 +379,27 @@
             background: var(--white);
             border-radius: 15px;
             border-left: 5px solid var(--primary-green);
+        }
+        
+        .day-plan h4 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .day-price {
+            color: var(--dark-green);
+            font-weight: bold;
+            font-size: 1rem;
+            background-color: #e6fff4;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+        
+        body.dark-mode .day-price {
+            background-color: var(--dark-gray);
+            color: var(--primary-green);
         }
 
         body.dark-mode .day-plan {
@@ -438,89 +486,7 @@
             color: white;
             text-align: center;
         }
-
-        /* BMI Calculator */
-        .bmi-result {
-            margin-top: 2rem;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            display: none;
-        }
-
-        .bmi-underweight { background: linear-gradient(135deg, #74b9ff, #0984e3); }
-        .bmi-normal { background: linear-gradient(135deg, #00b894, #00a085); }
-        .bmi-overweight { background: linear-gradient(135deg, #fdcb6e, #e17055); }
-        .bmi-obese { background: linear-gradient(135deg, #fd79a8, #e84393); }
-
-        /* Blog Section */
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .blog-card {
-            background: var(--light-gray);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-        }
-
-        body.dark-mode .blog-card {
-            background: var(--dark-gray);
-        }
-
-        .blog-image {
-            height: 200px;
-            background: linear-gradient(45deg, var(--primary-green), var(--dark-green));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--black);
-            font-size: 3rem;
-        }
-
-        .blog-content {
-            padding: 1.5rem;
-        }
-
-        /* Contact Form */
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--light-gray);
-            padding: 2rem;
-            border-radius: 20px;
-        }
-
-        body.dark-mode .contact-form {
-            background: var(--dark-gray);
-        }
-
-        .contact-form textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        body.dark-mode .contact-form textarea {
-            background: var(--black);
-            color: var(--white);
-            border-color: var(--dark-gray);
-        }
-
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .mobile-menu-toggle {
@@ -533,9 +499,14 @@
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background: var(--black);
+                background: rgba(26, 26, 26, 0.9);
                 flex-direction: column;
-                padding: 1rem;
+                align-items: center;
+                padding: 1rem 0;
+            }
+            
+            .nav-menu li {
+                margin-bottom: 1rem;
             }
 
             .nav-menu.active {
@@ -543,7 +514,7 @@
             }
 
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
 
             .hero-buttons {
@@ -576,39 +547,20 @@
         .fade-in {
             animation: fadeInUp 0.6s ease;
         }
-
-        /* Loading States */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-green);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">FitLife 💪</a>
+            <a href="#" class="logo">FitGoals</a>
             <ul class="nav-menu">
                 <li><a href="#" class="nav-link" onclick="showSection('home')">Home</a></li>
                 <li><a href="#" class="nav-link" onclick="showSection('calculator')">Calorie Calculator</a></li>
                 <li><a href="#" class="nav-link" onclick="showSection('diet')">Diet Plans</a></li>
                 <li><a href="#" class="nav-link" onclick="showSection('workouts')">Workouts</a></li>
-                <li><a href="#" class="nav-link" onclick="showSection('todo')">To-Do List</a></li>
-                <li><a href="#" class="nav-link" onclick="showSection('bmi')">BMI</a></li>
-                <li><a href="#" class="nav-link" onclick="showSection('blog')">Blog</a></li>
-                <li><a href="#" class="nav-link" onclick="showSection('contact')">Contact</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('todo')">WhatsApp To-Do</a></li>
             </ul>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
             <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
         </div>
     </nav>
@@ -616,11 +568,11 @@
     <!-- Hero Section -->
     <section class="hero section active" id="home">
         <div class="hero-content fade-in">
-            <h1>Transform Your Body, Transform Your Life</h1>
-            <p>Your complete fitness companion for weight gain and weight loss journey</p>
+            <h1>Your Fitness Journey<br>Starts Here!</h1>
+            <p>Choose your goal:</p>
             <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="setGoal('gain')">💪 Gain Weight</button>
-                <button class="btn btn-secondary" onclick="setGoal('lose')">🔥 Lose Weight</button>
+                <button class="btn" onclick="setGoal('gain')">Gain Weight</button>
+                <button class="btn" onclick="setGoal('lose')">Lose Weight</button>
             </div>
         </div>
     </section>
@@ -649,6 +601,10 @@
                 <div class="form-group">
                     <label for="weight">Weight (kg)</label>
                     <input type="number" id="weight" placeholder="Enter weight in kg" min="30" max="300">
+                </div>
+                <div class="form-group">
+                    <label for="bodyfat">Body Fat % (Optional)</label>
+                    <input type="number" id="bodyfat" placeholder="Enter body fat percentage" min="3" max="60">
                 </div>
                 <div class="form-group">
                     <label for="activity">Activity Level</label>
@@ -703,59 +659,254 @@
         </div>
     </section>
 
-    <!-- Diet Plans Section -->
+    <!-- Diet Plans Section - UPDATED -->
     <section class="section" id="diet">
         <div class="container">
             <h2 class="section-title">7-Day Diet Plans</h2>
             <div class="diet-tabs">
-                <button class="diet-tab active" onclick="showDietPlan('weight-loss')">Weight Loss</button>
-                <button class="diet-tab" onclick="showDietPlan('weight-gain')">Weight Gain</button>
+                <button class="diet-tab active" onclick="showDietPlan('weight-loss', this)">Weight Loss</button>
+                <button class="diet-tab" onclick="showDietPlan('weight-gain', this)">Weight Gain</button>
             </div>
             
+            <!-- Weight Loss Container -->
             <div class="diet-plan active" id="weight-loss">
-                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-green);">7-Day Weight Loss Plan</h3>
-                <div class="day-plan">
-                    <h4>Day 1 - Monday (1200-1400 calories)</h4>
-                    <p><strong>Breakfast:</strong> Oatmeal with berries (250 cal)</p>
-                    <p><strong>Lunch:</strong> Grilled chicken salad (350 cal)</p>
-                    <p><strong>Snack:</strong> Apple with almonds (200 cal)</p>
-                    <p><strong>Dinner:</strong> Baked salmon with vegetables (400 cal)</p>
+                <div class="diet-tabs sub-diet-tabs">
+                    <button class="diet-tab active" onclick="showSubDietPlan('weight-loss', 'non-veg', this)">Non-Vegetarian</button>
+                    <button class="diet-tab" onclick="showSubDietPlan('weight-loss', 'veg', this)">Vegetarian</button>
                 </div>
-                <div class="day-plan">
-                    <h4>Day 2 - Tuesday (1200-1400 calories)</h4>
-                    <p><strong>Breakfast:</strong> Greek yogurt with nuts (280 cal)</p>
-                    <p><strong>Lunch:</strong> Vegetable soup with whole grain bread (320 cal)</p>
-                    <p><strong>Snack:</strong> Carrot sticks with hummus (150 cal)</p>
-                    <p><strong>Dinner:</strong> Grilled tofu with quinoa (450 cal)</p>
+                
+                <div class="sub-diet-plan active" id="weight-loss-non-veg">
+                    <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-green);">Non-Veg Weight Loss Plan (1200-1400 calories/day)</h3>
+                    <div class="day-plan">
+                        <h4>Day 1 - Monday <span class="day-price">~ ₹1400</span></h4>
+                        <p><strong>Breakfast:</strong> Oatmeal with berries and a sprinkle of chia seeds (250 cal)</p>
+                        <p><strong>Lunch:</strong> Large salad with grilled chicken, mixed greens, cucumber, tomatoes, and a light vinaigrette (350 cal)</p>
+                        <p><strong>Snack:</strong> An apple with a tablespoon of almond butter (200 cal)</p>
+                        <p><strong>Dinner:</strong> Baked salmon with a side of steamed asparagus and quinoa (400 cal)</p>
+                    </div>
+                     <div class="day-plan">
+                        <h4>Day 2 - Tuesday <span class="day-price">~ ₹1300</span></h4>
+                        <p><strong>Breakfast:</strong> Greek yogurt with a handful of walnuts (280 cal)</p>
+                        <p><strong>Lunch:</strong> Vegetable and bean soup with a slice of whole-grain bread (320 cal)</p>
+                        <p><strong>Snack:</strong> Carrot sticks with hummus (150 cal)</p>
+                        <p><strong>Dinner:</strong> Grilled tofu with stir-fried broccoli, bell peppers, and a small portion of brown rice (450 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 3 - Wednesday <span class="day-price">~ ₹1350</span></h4>
+                        <p><strong>Breakfast:</strong> Smoothie with spinach, banana, and a scoop of protein powder (270 cal)</p>
+                        <p><strong>Lunch:</strong> Turkey and avocado wrap using a whole-wheat tortilla (340 cal)</p>
+                        <p><strong>Snack:</strong> A pear and a small handful of almonds (180 cal)</p>
+                        <p><strong>Dinner:</strong> Grilled fish tacos on corn tortillas with cabbage slaw and a side of black beans (420 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 4 - Thursday <span class="day-price">~ ₹1200</span></h4>
+                        <p><strong>Breakfast:</strong> Scrambled eggs (2) with spinach and a slice of whole-grain toast (300 cal)</p>
+                        <p><strong>Lunch:</strong> Lentil soup with a side salad (350 cal)</p>
+                        <p><strong>Snack:</strong> Cottage cheese with sliced peaches (150 cal)</p>
+                        <p><strong>Dinner:</strong> Shrimp and vegetable stir-fry (420 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 5 - Friday <span class="day-price">~ ₹1300</span></h4>
+                        <p><strong>Breakfast:</strong> Overnight oats made with almond milk and topped with berries (280 cal)</p>
+                        <p><strong>Lunch:</strong> Tuna salad (made with Greek yogurt instead of mayo) in lettuce cups (320 cal)</p>
+                        <p><strong>Snack:</strong> Rice cakes with avocado (180 cal)</p>
+                        <p><strong>Dinner:</strong> Lean ground turkey meatballs with zucchini noodles and marinara sauce (400 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 6 - Saturday <span class="day-price">~ ₹1500</span></h4>
+                        <p><strong>Breakfast:</strong> Protein pancakes (made with protein powder and oats) with a few berries (300 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover turkey meatballs and zoodles (400 cal)</p>
+                        <p><strong>Snack:</strong> A handful of edamame (120 cal)</p>
+                        <p><strong>Dinner:</strong> Chicken and vegetable skewers with a side of couscous (450 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 7 - Sunday <span class="day-price">~ ₹1450</span></h4>
+                        <p><strong>Breakfast:</strong> Avocado toast on whole-grain bread, topped with a poached egg (350 cal)</p>
+                        <p><strong>Lunch:</strong> Quinoa bowl with roasted vegetables and chickpeas (400 cal)</p>
+                        <p><strong>Snack:</strong> An orange (80 cal)</p>
+                        <p><strong>Dinner:</strong> Baked cod with roasted Brussels sprouts and a small sweet potato (400 cal)</p>
+                    </div>
                 </div>
-                <div class="day-plan">
-                    <h4>Day 3 - Wednesday (1200-1400 calories)</h4>
-                    <p><strong>Breakfast:</strong> Smoothie bowl with fruits (270 cal)</p>
-                    <p><strong>Lunch:</strong> Turkey wrap with vegetables (340 cal)</p>
-                    <p><strong>Snack:</strong> Mixed nuts (180 cal)</p>
-                    <p><strong>Dinner:</strong> Grilled fish with sweet potato (420 cal)</p>
+                
+                <div class="sub-diet-plan" id="weight-loss-veg">
+                    <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-green);">Vegetarian Weight Loss Plan (1200-1400 calories/day)</h3>
+                    <div class="day-plan">
+                        <h4>Day 1 - Monday <span class="day-price">~ ₹1100</span></h4>
+                        <p><strong>Breakfast:</strong> Tofu scramble with spinach and turmeric (280 cal)</p>
+                        <p><strong>Lunch:</strong> Hearty lentil soup with a side salad (350 cal)</p>
+                        <p><strong>Snack:</strong> An apple with a tablespoon of peanut butter (200 cal)</p>
+                        <p><strong>Dinner:</strong> Chickpea and spinach curry with 1/2 cup of quinoa (450 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 2 - Tuesday <span class="day-price">~ ₹1200</span></h4>
+                        <p><strong>Breakfast:</strong> Greek yogurt with a handful of walnuts and berries (300 cal)</p>
+                        <p><strong>Lunch:</strong> Quinoa salad with black beans, corn, bell peppers, and a lime-cilantro dressing (400 cal)</p>
+                        <p><strong>Snack:</strong> Carrot sticks with hummus (150 cal)</p>
+                        <p><strong>Dinner:</strong> Baked sweet potato topped with black beans, salsa, and a dollop of Greek yogurt (400 cal)</p>
+                    </div>
+                     <div class="day-plan">
+                        <h4>Day 3 - Wednesday <span class="day-price">~ ₹1300</span></h4>
+                        <p><strong>Breakfast:</strong> Smoothie with spinach, banana, plant-based protein powder, and almond milk (300 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover chickpea curry (450 cal)</p>
+                        <p><strong>Snack:</strong> A pear and a small handful of almonds (180 cal)</p>
+                        <p><strong>Dinner:</strong> Black bean burger on a whole-wheat bun with a side of steamed green beans (420 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 4 - Thursday <span class="day-price">~ ₹1350</span></h4>
+                        <p><strong>Breakfast:</strong> Oatmeal made with water or almond milk, topped with berries and chia seeds (280 cal)</p>
+                        <p><strong>Lunch:</strong> Large salad with baked tempeh, mixed greens, and a light vinaigrette (380 cal)</p>
+                        <p><strong>Snack:</strong> Cottage cheese with sliced peaches (150 cal)</p>
+                        <p><strong>Dinner:</strong> Paneer and vegetable skewers with a small portion of brown rice (450 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 5 - Friday <span class="day-price">~ ₹1150</span></h4>
+                        <p><strong>Breakfast:</strong> Avocado toast on whole-grain bread with red pepper flakes (300 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover paneer skewers (450 cal)</p>
+                        <p><strong>Snack:</strong> Two brown rice cakes with mashed avocado (200 cal)</p>
+                        <p><strong>Dinner:</strong> Black bean pasta with a simple tomato and basil sauce (380 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 6 - Saturday <span class="day-price">~ ₹1250</span></h4>
+                        <p><strong>Breakfast:</strong> Protein pancakes made with plant-based protein powder, topped with berries (320 cal)</p>
+                        <p><strong>Lunch:</strong> Hearty vegetable and bean soup (350 cal)</p>
+                        <p><strong>Snack:</strong> A handful of edamame (120 cal)</p>
+                        <p><strong>Dinner:</strong> Cauliflower crust pizza with lots of veggies and a sprinkle of cheese (450 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 7 - Sunday <span class="day-price">~ ₹1200</span></h4>
+                        <p><strong>Breakfast:</strong> Chia seed pudding made with almond milk, topped with fruit (300 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover cauliflower pizza (450 cal)</p>
+                        <p><strong>Snack:</strong> An orange (80 cal)</p>
+                        <p><strong>Dinner:</strong> Mushroom and lentil loaf with a side of mashed cauliflower and gravy (420 cal)</p>
+                    </div>
                 </div>
             </div>
             
+            <!-- Weight Gain Container -->
             <div class="diet-plan" id="weight-gain">
-                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-green);">7-Day Weight Gain Plan</h3>
-                <div class="day-plan">
-                    <h4>Day 1 - Monday (2800-3200 calories)</h4>
-                    <p><strong>Breakfast:</strong> Protein pancakes with banana (650 cal)</p>
-                    <p><strong>Mid-Morning:</strong> Protein shake with milk (400 cal)</p>
-                    <p><strong>Lunch:</strong> Chicken rice bowl with avocado (750 cal)</p>
-                    <p><strong>Snack:</strong> Trail mix with dried fruits (350 cal)</p>
-                    <p><strong>Dinner:</strong> Steak with pasta and vegetables (900 cal)</p>
-                    <p><strong>Evening:</strong> Casein protein with nuts (350 cal)</p>
+                <div class="diet-tabs sub-diet-tabs">
+                    <button class="diet-tab active" onclick="showSubDietPlan('weight-gain', 'non-veg', this)">Non-Vegetarian</button>
+                    <button class="diet-tab" onclick="showSubDietPlan('weight-gain', 'veg', this)">Vegetarian</button>
                 </div>
-                <div class="day-plan">
-                    <h4>Day 2 - Tuesday (2800-3200 calories)</h4>
-                    <p><strong>Breakfast:</strong> Eggs with toast and avocado (600 cal)</p>
-                    <p><strong>Mid-Morning:</strong> Mass gainer shake (450 cal)</p>
-                    <p><strong>Lunch:</strong> Salmon with quinoa and nuts (800 cal)</p>
-                    <p><strong>Snack:</strong> Peanut butter sandwich (400 cal)</p>
-                    <p><strong>Dinner:</strong> Lamb curry with rice (950 cal)</p>
-                    <p><strong>Evening:</strong> Greek yogurt with granola (300 cal)</p>
+
+                <div class="sub-diet-plan active" id="weight-gain-non-veg">
+                    <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-green);">Non-Veg Weight Gain Plan (2800-3200 calories/day)</h3>
+                    <div class="day-plan">
+                        <h4>Day 1 - Monday <span class="day-price">~ ₹2800</span></h4>
+                        <p><strong>Breakfast:</strong> 4 scrambled eggs with cheese, 2 slices of whole-wheat toast with avocado, and a glass of whole milk (750 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Protein shake with whole milk, a banana, and a scoop of peanut butter (500 cal)</p>
+                        <p><strong>Lunch:</strong> Large chicken breast, a cup of rice, and a cup of broccoli with olive oil (750 cal)</p>
+                        <p><strong>Snack:</strong> Full-fat Greek yogurt with granola and honey (400 cal)</p>
+                        <p><strong>Dinner:</strong> Steak with a large loaded baked potato and a side salad with dressing (900 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 2 - Tuesday <span class="day-price">~ ₹2400</span></h4>
+                        <p><strong>Breakfast:</strong> Large bowl of oatmeal made with whole milk, topped with nuts, seeds, and dried fruit (700 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Mass gainer shake (or a large bagel with cream cheese) (450 cal)</p>
+                        <p><strong>Lunch:</strong> Salmon fillet with a large portion of quinoa and roasted asparagus with olive oil (800 cal)</p>
+                        <p><strong>Snack:</strong> Peanut butter and banana sandwich on whole-wheat bread (400 cal)</p>
+                        <p><strong>Dinner:</strong> Beef and bean chili topped with cheese and sour cream, with a side of cornbread (950 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 3 - Wednesday <span class="day-price">~ ₹2250</span></h4>
+                        <p><strong>Breakfast:</strong> Protein pancakes (4) with syrup, bananas, and a side of bacon (800 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Can of tuna mixed with mayo, on crackers (400 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover chili (950 cal)</p>
+                        <p><strong>Snack:</strong> Cottage cheese with almonds and pineapple (350 cal)</p>
+                        <p><strong>Dinner:</strong> Large portion of spaghetti with meat sauce and a side of garlic bread (900 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 4 - Thursday <span class="day-price">~ ₹2550</span></h4>
+                        <p><strong>Breakfast:</strong> Breakfast burritos (2) with eggs, sausage, cheese, and beans (750 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Protein shake with oats and milk (500 cal)</p>
+                        <p><strong>Lunch:</strong> Two large slices of meat lover's pizza (800 cal)</p>
+                        <p><strong>Snack:</strong> A large handful of trail mix (nuts, seeds, chocolate chips) (400 cal)</p>
+                        <p><strong>Dinner:</strong> Pulled pork sandwich with a side of coleslaw and baked beans (950 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 5 - Friday <span class="day-price">~ ₹2700</span></h4>
+                        <p><strong>Breakfast:</strong> Smoothie: 2 scoops protein, 1 cup whole milk, 1/2 cup oats, 2 tbsp almond butter, 1 banana (700 cal)</p>
+                        <p><strong>Mid-Morning:</strong> 2 hard-boiled eggs and a cheese stick (300 cal)</p>
+                        <p><strong>Lunch:</strong> Double cheeseburger with a side of sweet potato fries (900 cal)</p>
+                        <p><strong>Snack:</strong> Mass gainer bar (400 cal)</p>
+                        <p><strong>Dinner:</strong> Chicken Alfredo pasta with a side of steamed green beans (900 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 6 - Saturday <span class="day-price">~ ₹2450</span></h4>
+                        <p><strong>Breakfast:</strong> 3-egg omelet loaded with ham, cheese, and vegetables, with a side of hash browns (700 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Greek yogurt with a scoop of protein powder mixed in (350 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover Chicken Alfredo (900 cal)</p>
+                        <p><strong>Snack:</strong> Beef jerky and a piece of fruit (300 cal)</p>
+                        <p><strong>Dinner:</strong> Salmon croquettes, macaroni and cheese, and collard greens (950 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 7 - Sunday <span class="day-price">~ ₹2650</span></h4>
+                        <p><strong>Breakfast:</strong> French toast (3 slices) with syrup and a side of sausage (750 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Protein shake (400 cal)</p>
+                        <p><strong>Lunch:</strong> Large chicken quesadilla with guacamole and sour cream (850 cal)</p>
+                        <p><strong>Snack:</strong> A bowl of cereal with whole milk (350 cal)</p>
+                        <p><strong>Dinner:</strong> Roast chicken with roasted potatoes, carrots, and a dinner roll (900 cal)</p>
+                    </div>
+                </div>
+
+                <div class="sub-diet-plan" id="weight-gain-veg">
+                    <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-green);">Vegetarian Weight Gain Plan (2800-3200 calories/day)</h3>
+                     <div class="day-plan">
+                        <h4>Day 1 - Monday <span class="day-price">~ ₹2400</span></h4>
+                        <p><strong>Breakfast:</strong> Large tofu scramble with cheese, 2 slices toast with avocado, glass of soy milk (700 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Shake with plant protein, soy milk, banana, and peanut butter (500 cal)</p>
+                        <p><strong>Lunch:</strong> Large bean and rice burrito loaded with guacamole, cheese, and salsa (800 cal)</p>
+                        <p><strong>Snack:</strong> Full-fat Greek yogurt with granola and nuts (450 cal)</p>
+                        <p><strong>Dinner:</strong> Paneer butter masala with 2 naan breads and a side salad (900 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 2 - Tuesday <span class="day-price">~ ₹2000</span></h4>
+                        <p><strong>Breakfast:</strong> Large bowl oatmeal (with soy milk), nuts, seeds, dried fruit (700 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Large bagel with cream cheese (450 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover paneer masala (900 cal)</p>
+                        <p><strong>Snack:</strong> Peanut butter and banana sandwich (400 cal)</p>
+                        <p><strong>Dinner:</strong> Large plate of black bean chili with cornbread, topped with cheese and sour cream (950 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 3 - Wednesday <span class="day-price">~ ₹2250</span></h4>
+                        <p><strong>Breakfast:</strong> 4 plant-based protein pancakes with syrup and bananas (800 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Large handful of trail mix (450 cal)</p>
+                        <p><strong>Lunch:</strong> Shepherd's pie made with lentils and topped with cheesy mashed potatoes (850 cal)</p>
+                        <p><strong>Snack:</strong> Cottage cheese with pineapple and almonds (350 cal)</p>
+                        <p><strong>Dinner:</strong> Plant-based sausages (3) with a large portion of mac and cheese (900 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 4 - Thursday <span class="day-price">~ ₹2100</span></h4>
+                        <p><strong>Breakfast:</strong> Breakfast burritos (2) with scrambled tofu, cheese, potatoes, and beans (750 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Protein shake with oats and soy milk (500 cal)</p>
+                        <p><strong>Lunch:</strong> Two large slices of veggie lover's pizza (800 cal)</p>
+                        <p><strong>Snack:</strong> A whole avocado with salt and a spoon (350 cal)</p>
+                        <p><strong>Dinner:</strong> Large bowl of fettuccine alfredo with mushrooms and spinach, side of garlic bread (950 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 5 - Friday <span class="day-price">~ ₹2550</span></h4>
+                        <p><strong>Breakfast:</strong> Smoothie: 2 scoops plant protein, soy milk, oats, almond butter, banana (700 cal)</p>
+                        <p><strong>Mid-Morning:</strong> 2 hard-boiled eggs and a cheese stick (300 cal)</p>
+                        <p><strong>Lunch:</strong> Double plant-based burger with sweet potato fries (900 cal)</p>
+                        <p><strong>Snack:</strong> Mass gainer bar or protein bar (400 cal)</p>
+                        <p><strong>Dinner:</strong> Seitan "steak" with a large loaded baked potato and creamed spinach (900 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 6 - Saturday <span class="day-price">~ ₹2150</span></h4>
+                        <p><strong>Breakfast:</strong> 3-egg omelet (or tofu equivalent) loaded with cheese and veggies, side of hash browns (700 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Greek yogurt with a scoop of protein powder mixed in (350 cal)</p>
+                        <p><strong>Lunch:</strong> Leftover fettuccine alfredo (950 cal)</p>
+                        <p><strong>Snack:</strong> A can of vegetarian chili (300 cal)</p>
+                        <p><strong>Dinner:</strong> Large vegetable and tofu stir-fry with peanut sauce over noodles, topped with crushed peanuts (900 cal)</p>
+                    </div>
+                    <div class="day-plan">
+                        <h4>Day 7 - Sunday <span class="day-price">~ ₹2300</span></h4>
+                        <p><strong>Breakfast:</strong> French toast (3 slices) with syrup and fruit (750 cal)</p>
+                        <p><strong>Mid-Morning:</strong> Protein shake (400 cal)</p>
+                        <p><strong>Lunch:</strong> Large veggie quesadilla with guacamole and sour cream (850 cal)</p>
+                        <p><strong>Snack:</strong> A large bowl of cereal with soy milk (400 cal)</p>
+                        <p><strong>Dinner:</strong> Vegetable lasagna with a large side salad and garlic bread (900 cal)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -768,61 +919,18 @@
             <div class="workout-grid fade-in">
                 <div class="workout-card">
                     <h3>💪 Weight Gain Workouts</h3>
-                    <h4>Monday - Chest & Triceps</h4>
                     <ul class="exercise-list">
                         <li>Bench Press - 4 sets x 8-10 reps</li>
                         <li>Incline Dumbbell Press - 4 sets x 8-10 reps</li>
-                        <li>Chest Flyes - 3 sets x 10-12 reps</li>
-                        <li>Tricep Dips - 3 sets x 12-15 reps</li>
-                        <li>Close-Grip Bench Press - 3 sets x 10-12 reps</li>
-                    </ul>
-                    <h4>Tuesday - Back & Biceps</h4>
-                    <ul class="exercise-list">
                         <li>Deadlifts - 4 sets x 6-8 reps</li>
-                        <li>Pull-ups - 4 sets x 8-10 reps</li>
-                        <li>Barbell Rows - 4 sets x 8-10 reps</li>
-                        <li>Barbell Curls - 3 sets x 10-12 reps</li>
-                        <li>Hammer Curls - 3 sets x 12-15 reps</li>
                     </ul>
                 </div>
-                
                 <div class="workout-card">
                     <h3>🔥 Weight Loss Workouts</h3>
-                    <h4>Monday - HIIT Cardio</h4>
-                    <ul class="exercise-list">
+                     <ul class="exercise-list">
                         <li>Burpees - 4 sets x 30 seconds</li>
                         <li>Mountain Climbers - 4 sets x 45 seconds</li>
                         <li>Jump Squats - 4 sets x 20 reps</li>
-                        <li>High Knees - 4 sets x 30 seconds</li>
-                        <li>Plank - 3 sets x 60 seconds</li>
-                    </ul>
-                    <h4>Tuesday - Full Body Circuit</h4>
-                    <ul class="exercise-list">
-                        <li>Push-ups - 3 sets x 15 reps</li>
-                        <li>Squats - 3 sets x 20 reps</li>
-                        <li>Lunges - 3 sets x 12 per leg</li>
-                        <li>Jumping Jacks - 3 sets x 30 seconds</li>
-                        <li>Russian Twists - 3 sets x 20 reps</li>
-                    </ul>
-                </div>
-                
-                <div class="workout-card">
-                    <h3>🏋️ Strength Training</h3>
-                    <h4>Wednesday - Legs & Shoulders</h4>
-                    <ul class="exercise-list">
-                        <li>Squats - 4 sets x 8-10 reps</li>
-                        <li>Romanian Deadlifts - 4 sets x 10-12 reps</li>
-                        <li>Leg Press - 3 sets x 15 reps</li>
-                        <li>Shoulder Press - 4 sets x 8-10 reps</li>
-                        <li>Lateral Raises - 3 sets x 12-15 reps</li>
-                    </ul>
-                    <h4>Friday - Core & Conditioning</h4>
-                    <ul class="exercise-list">
-                        <li>Plank - 4 sets x 60 seconds</li>
-                        <li>Dead Bug - 3 sets x 10 per side</li>
-                        <li>Russian Twists - 3 sets x 20 reps</li>
-                        <li>Bicycle Crunches - 3 sets x 15 per side</li>
-                        <li>Bear Crawl - 3 sets x 30 seconds</li>
                     </ul>
                 </div>
             </div>
@@ -831,156 +939,18 @@
 
     <!-- To-Do List Section -->
     <section class="section" id="todo">
-        <div class="container">
+         <div class="container">
             <h2 class="section-title">Fitness To-Do List</h2>
             <div class="todo-container fade-in">
                 <div class="todo-input">
                     <input type="text" id="todoInput" placeholder="Add a fitness task..." />
                     <button class="btn btn-primary" onclick="addTodo()">Add Task</button>
                 </div>
-                
-                <ul class="todo-list" id="todoList">
-                    <!-- Todo items will be added here -->
-                </ul>
-                
+                <ul class="todo-list" id="todoList"></ul>
                 <div class="whatsapp-section">
                     <h3>📱 WhatsApp Daily Reminders</h3>
                     <p>Get your fitness tasks sent to WhatsApp every day!</p>
-                    <div style="margin-top: 1rem;">
-                        <input type="tel" id="phoneNumber" placeholder="Enter WhatsApp number (+1234567890)" 
-                               style="padding: 1rem; margin-right: 1rem; border: none; border-radius: 10px; width: 250px;">
-                        <button class="btn btn-secondary" onclick="setupWhatsAppReminders()">Setup Reminders</button>
-                    </div>
-                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-                        Example tasks: "Drink 3L water", "30min workout", "Take protein shake"
-                    </p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BMI Calculator Section -->
-    <section class="section" id="bmi">
-        <div class="container">
-            <h2 class="section-title">BMI Calculator</h2>
-            <div class="calculator-form fade-in">
-                <div class="form-group">
-                    <label for="bmiHeight">Height (cm)</label>
-                    <input type="number" id="bmiHeight" placeholder="Enter height in cm" min="120" max="250">
-                </div>
-                <div class="form-group">
-                    <label for="bmiWeight">Weight (kg)</label>
-                    <input type="number" id="bmiWeight" placeholder="Enter weight in kg" min="30" max="300">
-                </div>
-                <button class="btn btn-primary" onclick="calculateBMI()" style="width: 100%;">Calculate BMI</button>
-                
-                <div class="bmi-result" id="bmiResult">
-                    <h3 id="bmiValue"></h3>
-                    <p id="bmiCategory"></p>
-                    <p id="bmiAdvice"></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog Section -->
-    <section class="section" id="blog">
-        <div class="container">
-            <h2 class="section-title">Fitness Blog & Tips</h2>
-            <div class="blog-grid fade-in">
-                <div class="blog-card">
-                    <div class="blog-image">💪</div>
-                    <div class="blog-content">
-                        <h3>10 Essential Tips for Weight Gain</h3>
-                        <p>Discover the most effective strategies to gain healthy weight and build muscle mass through proper nutrition and training.</p>
-                        <small>📅 5 min read</small>
-                    </div>
-                </div>
-                
-                <div class="blog-card">
-                    <div class="blog-image">🔥</div>
-                    <div class="blog-content">
-                        <h3>HIIT vs Cardio: What Burns More Fat?</h3>
-                        <p>Learn about the science behind different workout styles and which approach is best for your weight loss goals.</p>
-                        <small>📅 7 min read</small>
-                    </div>
-                </div>
-                
-                <div class="blog-card">
-                    <div class="blog-image">🥗</div>
-                    <div class="blog-content">
-                        <h3>Meal Prep Like a Pro</h3>
-                        <p>Master the art of meal preparation to stay consistent with your nutrition goals and save time during busy weeks.</p>
-                        <small>📅 6 min read</small>
-                    </div>
-                </div>
-                
-                <div class="blog-card">
-                    <div class="blog-image">💊</div>
-                    <div class="blog-content">
-                        <h3>Supplements Guide for Beginners</h3>
-                        <p>Navigate the world of fitness supplements and learn which ones are worth your investment for better results.</p>
-                        <small>📅 8 min read</small>
-                    </div>
-                </div>
-                
-                <div class="blog-card">
-                    <div class="blog-image">😴</div>
-                    <div class="blog-content">
-                        <h3>The Importance of Recovery</h3>
-                        <p>Understand why rest and recovery are crucial components of any successful fitness journey and how to optimize them.</p>
-                        <small>📅 5 min read</small>
-                    </div>
-                </div>
-                
-                <div class="blog-card">
-                    <div class="blog-image">📱</div>
-                    <div class="blog-content">
-                        <h3>Best Fitness Apps for 2024</h3>
-                        <p>Explore the top mobile apps that can help you track workouts, count calories, and stay motivated on your fitness journey.</p>
-                        <small>📅 4 min read</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="contact-form fade-in">
-                <div class="form-group">
-                    <label for="contactName">Name</label>
-                    <input type="text" id="contactName" placeholder="Your full name">
-                </div>
-                <div class="form-group">
-                    <label for="contactEmail">Email</label>
-                    <input type="email" id="contactEmail" placeholder="Your email address">
-                </div>
-                <div class="form-group">
-                    <label for="contactSubject">Subject</label>
-                    <select id="contactSubject">
-                        <option value="">Select a topic</option>
-                        <option value="general">General Inquiry</option>
-                        <option value="support">Technical Support</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="partnership">Partnership</option>
-                        <option value="bug">Report a Bug</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="contactMessage">Message</label>
-                    <textarea id="contactMessage" placeholder="Tell us how we can help you..."></textarea>
-                </div>
-                <button class="btn btn-primary" onclick="submitContact()" style="width: 100%;">Send Message</button>
-            </div>
-            
-            <div style="text-align: center; margin-top: 3rem; color: var(--primary-green);">
-                <h3>Get In Touch</h3>
-                <p>📧 support@fitlife.com</p>
-                <p>📱 +1 (555) 123-4567</p>
-                <p>📍 123 Fitness Street, Health City, HC 12345</p>
             </div>
         </div>
     </section>
@@ -989,27 +959,33 @@
         // Global Variables
         let currentGoal = null;
         let todos = [];
-        let currentUser = null;
         let isDarkMode = false;
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
         // Navigation Functions
         function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
+            document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
-            
-            // Show selected section
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
+            } else {
+                document.getElementById('home').classList.add('active');
             }
-            
-            // Add animation class
-            setTimeout(() => {
-                targetSection.classList.add('fade-in');
-            }, 100);
+            const navMenu = document.querySelector('.nav-menu');
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+            }
         }
 
         function toggleMobileMenu() {
@@ -1017,24 +993,15 @@
             navMenu.classList.toggle('active');
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            isDarkMode = !isDarkMode;
-            const themeToggle = document.querySelector('.theme-toggle');
-            themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
-        }
-
         function setGoal(goal) {
             currentGoal = goal;
-            document.getElementById('goal').value = goal;
             showSection('calculator');
-            
-            // Show goal-specific message
             setTimeout(() => {
+                document.getElementById('goal').value = goal;
                 alert(goal === 'gain' ? 
                     '💪 Great choice! Let\'s calculate your calories for weight gain.' : 
                     '🔥 Excellent! Let\'s calculate your calories for weight loss.');
-            }, 500);
+            }, 100);
         }
 
         // Calorie Calculator Functions
@@ -1045,154 +1012,94 @@
             const weight = parseInt(document.getElementById('weight').value);
             const activity = parseFloat(document.getElementById('activity').value);
             const goal = document.getElementById('goal').value;
+            // Get the optional body fat value, though it is not used in the current formula
+            const bodyfat = parseInt(document.getElementById('bodyfat').value);
 
-            // Validation
             if (!age || !gender || !height || !weight || !activity || !goal) {
-                alert('Please fill in all fields to calculate your calories.');
+                alert('Please fill in all required fields to calculate your calories.');
                 return;
             }
 
-            // Calculate BMR using Mifflin-St Jeor Equation
             let bmr;
+            // This is the Mifflin-St Jeor equation, which doesn't use body fat %.
+            // For a formula that uses body fat, the Katch-McArdle formula could be implemented.
             if (gender === 'male') {
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
             } else {
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
             }
 
-            // Calculate maintenance calories
             const maintenance = Math.round(bmr * activity);
-            
-            // Calculate suggested calories based on goal
             let suggested;
-            switch(goal) {
-                case 'lose':
-                    suggested = maintenance - 500; // 500 calorie deficit
-                    break;
-                case 'gain':
-                    suggested = maintenance + 500; // 500 calorie surplus
-                    break;
-                case 'maintain':
-                    suggested = maintenance;
-                    break;
-            }
+            if (goal === 'lose') suggested = maintenance - 500;
+            else if (goal === 'gain') suggested = maintenance + 500;
+            else suggested = maintenance;
 
-            // Calculate macros
-            const protein = Math.round((suggested * 0.25) / 4); // 4 cal per gram
-            const carbs = Math.round((suggested * 0.45) / 4); // 4 cal per gram
-            const fats = Math.round((suggested * 0.30) / 9); // 9 cal per gram
+            const protein = Math.round((suggested * 0.25) / 4);
+            const carbs = Math.round((suggested * 0.45) / 4);
+            const fats = Math.round((suggested * 0.30) / 9);
 
-            // Display results
             document.getElementById('bmr').textContent = Math.round(bmr) + ' calories';
             document.getElementById('maintenance').textContent = maintenance + ' calories';
             document.getElementById('suggested').textContent = suggested + ' calories';
             document.getElementById('protein').textContent = protein + 'g';
             document.getElementById('carbs').textContent = carbs + 'g';
             document.getElementById('fats').textContent = fats + 'g';
-
             document.getElementById('results').style.display = 'block';
         }
 
-        // BMI Calculator Functions
-        function calculateBMI() {
-            const height = parseFloat(document.getElementById('bmiHeight').value);
-            const weight = parseFloat(document.getElementById('bmiWeight').value);
-
-            if (!height || !weight) {
-                alert('Please enter both height and weight.');
-                return;
-            }
-
-            const heightInM = height / 100;
-            const bmi = weight / (heightInM * heightInM);
-            const bmiRounded = Math.round(bmi * 10) / 10;
-
-            let category, advice, className;
-
-            if (bmi < 18.5) {
-                category = 'Underweight';
-                advice = 'Consider gaining weight through a balanced diet and strength training.';
-                className = 'bmi-underweight';
-            } else if (bmi < 25) {
-                category = 'Normal weight';
-                advice = 'Great! Maintain your current weight with a balanced lifestyle.';
-                className = 'bmi-normal';
-            } else if (bmi < 30) {
-                category = 'Overweight';
-                advice = 'Consider losing weight through diet and exercise for better health.';
-                className = 'bmi-overweight';
-            } else {
-                category = 'Obese';
-                advice = 'Consult a healthcare provider for a weight loss plan.';
-                className = 'bmi-obese';
-            }
-
-            const resultDiv = document.getElementById('bmiResult');
-            resultDiv.className = `bmi-result ${className}`;
-            resultDiv.style.display = 'block';
-
-            document.getElementById('bmiValue').textContent = `BMI: ${bmiRounded}`;
-            document.getElementById('bmiCategory').textContent = `Category: ${category}`;
-            document.getElementById('bmiAdvice').textContent = advice;
-        }
-
         // Diet Plan Functions
-        function showDietPlan(plan) {
-            // Remove active class from all tabs and plans
-            document.querySelectorAll('.diet-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.diet-plan').forEach(plan => plan.classList.remove('active'));
-            
-            // Add active class to selected tab and plan
-            event.target.classList.add('active');
-            document.getElementById(plan).classList.add('active');
+        function showDietPlan(planId, clickedTab) {
+            document.querySelectorAll('.diet-plan').forEach(p => p.classList.remove('active'));
+            document.getElementById(planId).classList.add('active');
+
+            const mainTabs = document.querySelector('.diet-tabs');
+            mainTabs.querySelectorAll('.diet-tab').forEach(tab => tab.classList.remove('active'));
+            clickedTab.classList.add('active');
         }
+
+        function showSubDietPlan(mainPlan, subPlan, clickedTab) {
+            const mainContainer = document.getElementById(mainPlan);
+            
+            mainContainer.querySelectorAll('.sub-diet-plan').forEach(p => p.classList.remove('active'));
+            
+            const targetPlanId = `${mainPlan}-${subPlan}`;
+            mainContainer.querySelector(`#${targetPlanId}`).classList.add('active');
+            
+            mainContainer.querySelectorAll('.sub-diet-tabs .diet-tab').forEach(tab => tab.classList.remove('active'));
+            clickedTab.classList.add('active');
+        }
+
 
         // To-Do List Functions
         function addTodo() {
             const input = document.getElementById('todoInput');
             const todoText = input.value.trim();
-            
-            if (!todoText) {
-                alert('Please enter a task!');
-                return;
-            }
-
-            const todo = {
-                id: Date.now(),
-                text: todoText,
-                completed: false,
-                createdAt: new Date()
-            };
-
-            todos.push(todo);
+            if (!todoText) return;
+            todos.push({ id: Date.now(), text: todoText, completed: false });
             input.value = '';
             renderTodos();
         }
 
         function renderTodos() {
             const todoList = document.getElementById('todoList');
+            if (!todoList) return;
             todoList.innerHTML = '';
-
             todos.forEach(todo => {
                 const li = document.createElement('li');
                 li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
                 li.innerHTML = `
                     <span>${todo.text}</span>
                     <div class="todo-actions">
-                        <button class="complete-btn" onclick="toggleTodo(${todo.id})">
-                            ${todo.completed ? '↻' : '✓'}
-                        </button>
+                        <button class="complete-btn" onclick="toggleTodo(${todo.id})">${todo.completed ? '↻' : '✓'}</button>
                         <button class="delete-btn" onclick="deleteTodo(${todo.id})">✗</button>
-                    </div>
-                `;
+                    </div>`;
                 todoList.appendChild(li);
             });
         }
 
         function toggleTodo(id) {
-            todos = todos.map(todo => 
-                todo.id === id ? {...todo, completed: !todo.completed} : todo
-            );
+            todos = todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo);
             renderTodos();
         }
 
@@ -1200,164 +1107,14 @@
             todos = todos.filter(todo => todo.id !== id);
             renderTodos();
         }
-
-        function setupWhatsAppReminders() {
-            const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            
-            if (!phoneNumber) {
-                alert('Please enter your WhatsApp number!');
-                return;
-            }
-
-            if (todos.length === 0) {
-                alert('Please add some tasks first!');
-                return;
-            }
-
-            // Simulate WhatsApp API integration
-            const incompleteTasks = todos.filter(todo => !todo.completed);
-            
-            if (incompleteTasks.length === 0) {
-                alert('All tasks are completed! Add new tasks for reminders.');
-                return;
-            }
-
-            // Create reminder message
-            let message = '🏋️‍♀️ FitLife Daily Reminders:\\n\\n';
-            incompleteTasks.forEach((todo, index) => {
-                message += `${index + 1}. ${todo.text}\\n`;
+        
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('todoInput')?.addEventListener('keypress', e => {
+                if (e.key === 'Enter') addTodo();
             });
-            message += '\\n💪 Keep pushing towards your goals!';
-
-            // Simulate API call (in real implementation, you'd use Twilio WhatsApp API)
-            setTimeout(() => {
-                alert(`✅ WhatsApp reminders set up successfully!\\n\\nDaily reminders will be sent to: ${phoneNumber}\\n\\nTasks included:\\n${incompleteTasks.map((todo, i) => `${i+1}. ${todo.text}`).join('\\n')}`);
-            }, 1000);
-
-            // In a real implementation, you would make an API call like this:
-            /*
-            fetch('/api/setup-whatsapp-reminders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    phoneNumber: phoneNumber,
-                    tasks: incompleteTasks,
-                    message: message
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('WhatsApp reminders set up successfully!');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to set up reminders. Please try again.');
-            });
-            */
-        }
-
-        // Contact Form Function
-        function submitContact() {
-            const name = document.getElementById('contactName').value.trim();
-            const email = document.getElementById('contactEmail').value.trim();
-            const subject = document.getElementById('contactSubject').value;
-            const message = document.getElementById('contactMessage').value.trim();
-
-            if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address.');
-                return;
-            }
-
-            // Simulate form submission
-            setTimeout(() => {
-                alert(`✅ Thank you, ${name}! Your message has been sent successfully. We'll get back to you within 24 hours.`);
-                
-                // Clear form
-                document.getElementById('contactName').value = '';
-                document.getElementById('contactEmail').value = '';
-                document.getElementById('contactSubject').value = '';
-                document.getElementById('contactMessage').value = '';
-            }, 1000);
-        }
-
-        // Utility Functions
-        function handleKeyPress(event, functionName) {
-            if (event.key === 'Enter') {
-                if (functionName === 'addTodo') {
-                    addTodo();
-                }
-            }
-        }
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add sample todos
-            const sampleTodos = [
-                'Drink 3 liters of water today',
-                'Complete 30-minute workout',
-                'Take protein shake after gym',
-                'Meal prep for tomorrow',
-                'Get 8 hours of sleep'
-            ];
-            
-            sampleTodos.forEach(todoText => {
-                todos.push({
-                    id: Date.now() + Math.random(),
-                    text: todoText,
-                    completed: false,
-                    createdAt: new Date()
-                });
-            });
-            
-            renderTodos();
-
-            // Add event listener for Enter key on todo input
-            document.getElementById('todoInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    addTodo();
-                }
-            });
-
-            // Add event listeners for calculator inputs
-            ['age', 'height', 'weight', 'bmiHeight', 'bmiWeight'].forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('keypress', function(e) {
-                        if (e.key === 'Enter') {
-                            if (id.includes('bmi')) {
-                                calculateBMI();
-                            } else {
-                                calculateCalories();
-                            }
-                        }
-                    });
-                }
-            });
-
-            // Show welcome message
-            setTimeout(() => {
-                if (window.innerWidth > 768) {
-                    console.log('🏋️‍♀️ Welcome to FitLife! Your complete fitness companion is ready to help you achieve your goals!');
-                }
-            }, 2000);
         });
 
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                document.querySelector('.nav-menu').classList.remove('active');
-            }
-        });
     </script>
 </body>
 </html>
-                
